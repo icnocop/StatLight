@@ -32,7 +32,11 @@ namespace StatLight.Core.Events.Messaging
             {
                 Message = message
             };
-            PostMessage(traceClientEvent);
+            IAsyncResult result = PostMessage(traceClientEvent);
+
+            // wait for messages to be sent to the server because otherwise messages may not get
+            // displayed in the console if an exception occurs soon after the message is sent for example
+            result.AsyncWaitHandle.WaitOne();
 #endif
         }
 
@@ -56,10 +60,10 @@ namespace StatLight.Core.Events.Messaging
             PostMessage(signalTestCompleteClientEvent);
         }
 
-        public static void PostMessage(ClientEvent message)
+        public static IAsyncResult PostMessage(ClientEvent message)
         {
             string messageString = message.Serialize();
-            PostMessage(messageString);
+            return PostMessage(messageString);
         }
 
         //private static Uri _postMessageUri;
@@ -73,20 +77,20 @@ namespace StatLight.Core.Events.Messaging
 
         //}
 
-        public static void PostMessage(string message)
+        public static IAsyncResult PostMessage(string message)
         {
             System.Threading.Interlocked.Increment(ref _postMessageCount);
 
-            HttpPost(StatLightServiceRestApi.PostMessage.ToFullUri(), message);
+            return HttpPost(StatLightServiceRestApi.PostMessage.ToFullUri(), message);
         }
 
-        private static void HttpPost(Uri uri, string message)
+        private static IAsyncResult HttpPost(Uri uri, string message)
         {
             // if the uri is null then there is no place to post (to support a "remotely hosted run" but not configured to run connnected to statlight
             if (uri == null)
-                return;
+                return null;
 
-            new HttpWebRequestHelper(uri, "POST", message).Execute();
+            return new HttpWebRequestHelper(uri, "POST", message).Execute();
         }
     }
 }

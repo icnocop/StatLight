@@ -55,10 +55,10 @@
       <HintPath>..\..\lib\Phone\Microsoft\Microsoft.Phone.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Silverlight.Testing">
-      <HintPath>..\..\lib\Silverlight\Microsoft\MSTest2010May\Microsoft.Silverlight.Testing.dll</HintPath>
+      <HintPath>..\..\lib\Silverlight\Microsoft\MSTest2011December\Microsoft.Silverlight.Testing.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight">
-      <HintPath>..\..\lib\Silverlight\Microsoft\MSTest2010May\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+      <HintPath>..\..\lib\Silverlight\Microsoft\MSTest2011December\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows">
       <HintPath>..\..\lib\Phone\Microsoft\System.Windows.dll</HintPath>

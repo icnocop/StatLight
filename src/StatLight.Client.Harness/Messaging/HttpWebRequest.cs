@@ -28,9 +28,9 @@ namespace StatLight.Client.Model.Messaging
             PostData = postData;
         }
 
-        public void Execute()
+        public IAsyncResult Execute()
         {
-            Request.BeginGetRequestStream(BeginRequest, this);
+            return Request.BeginGetRequestStream(BeginRequest, this);
         }
 
         private void BeginRequest(IAsyncResult ar)

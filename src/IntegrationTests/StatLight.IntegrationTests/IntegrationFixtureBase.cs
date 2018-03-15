@@ -49,7 +49,7 @@ namespace StatLight.IntegrationTests
             get
             {
                 if (ClientTestRunConfiguration.UnitTestProviderType == UnitTestProviderType.MSTest)
-                    return MicrosoftTestingFrameworkVersion.MSTest2010April;
+                    return MicrosoftTestingFrameworkVersion.MSTest2011December;
                 return null;
             }
         }

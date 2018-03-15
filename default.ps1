@@ -17,7 +17,7 @@ properties {
 	$solutionFile = ?? $solutionFile ".\src\StatLight.sln"
 	$solutionFilePhone = ?? $solutionFilePhone ".\src\StatLight.Phone.sln"
 	
-	$nunit_console_path = 'Tools\NUnit\nunit-console-x86.exe'
+	$nunit_console_path = 'Tools\NUnit-2.6.4\bin\nunit-console-x86.exe'
 
 	$statLightSourcesFilePrefix = 'StatLight.Sources.'
 	$core_assembly_path = "$build_dir\StatLight.Core.dll"
@@ -69,7 +69,7 @@ if(!($Global:hasLoadedNUnitSpecificationExtensions))
 {
 	echo 'loading NUnitSpecificationExtensions...'
 	Update-TypeData -prependPath .\tools\PowerShell\NUnitSpecificationExtensions.ps1xml
-	[System.Reflection.Assembly]::LoadFrom((Get-Item .\tools\NUnit\nunit.framework.dll).FullName) | Out-Null
+	[System.Reflection.Assembly]::LoadFrom((Get-Item .\tools\NUnit-2.6.4\bin\framework\nunit.framework.dll).FullName) | Out-Null
 	$Global:hasLoadedNUnitSpecificationExtensions = $true;
 }
 
@@ -334,7 +334,6 @@ function Build-And-Package-StatLight-MSTest {
 
 function Build-And-Package-All-StatLight-MSTest-IntegrationTests {
 	param([string]$microsoft_Silverlight_Testing_Version_Name)
-	Build-And-Package-StatLight-MSTest-IntegrationTests $microsoft_Silverlight_Testing_Version_Name "SILVERLIGHT4``;" "SL4" "-SL4"
 	Build-And-Package-StatLight-MSTest-IntegrationTests $microsoft_Silverlight_Testing_Version_Name "SILVERLIGHT5``;" "SL5" "-SL5"
 }
 
@@ -422,7 +421,6 @@ function execStatLight()
 
 function Execute-MSTest-Version-Acceptance-Tests-AllSL {
 	param([string]$microsoft_Silverlight_Testing_Version_Name)
-	Execute-MSTest-Version-Acceptance-Tests $microsoft_Silverlight_Testing_Version_Name "SL4"
 	Execute-MSTest-Version-Acceptance-Tests $microsoft_Silverlight_Testing_Version_Name "SL5"
 }
 
@@ -433,6 +431,15 @@ function Execute-MSTest-Version-Acceptance-Tests {
 	$xapDefinition = "-x=$build_dir\StatLight.Client.For.$microsoft_Silverlight_Testing_Version_Name.Integration-" + $slVersion + ".xap"
 	execStatLight $xapDefinition "-v=$microsoft_Silverlight_Testing_Version_Name" "-r=$scriptFile" --debug
 	
+	# Expected failed tests:
+	# StatLight.IntegrationTests.Silverlight.MSTestTests.Should_fail_due_to_a_dialog_assertion (Debug only)
+	# StatLight.IntegrationTests.Silverlight.MSTestTests.Should_fail_due_to_a_message_box_modal_dialog
+	# StatLight.IntegrationTests.Silverlight.MSTestTests.Should_fail_due_to_async_test_timeout
+	# StatLight.IntegrationTests.Silverlight.MSTestTests.this_should_be_a_Failing_test
+	# StatLight.IntegrationTests.Silverlight.MSTestTests.this_should_fail_because_it_didnt_raise_an_expected_exception
+	# Expected ignored tests:
+	# StatLight.IntegrationTests.Silverlight.MSTestTests.this_should_be_an_Ignored_test
+
 	if($build_configuration -eq 'Debug')
 	{
 		Assert-statlight-xml-report-results -message "Execute-MSTest-Version-Acceptance-Tests" -resultsXmlTextFilePath $scriptFile -expectedPassedCount 9 -expectedFailedCount 4 -expectedIgnoredCount 1 -expectedSystemGeneratedfailedCount 1
@@ -462,6 +469,7 @@ function AssertXmlReportIsValid([string]$scriptFile)
 		$passed = [StatLight.Core.Reporting.Providers.Xml.XmlReport]::ValidateSchema($scriptFile, [ref] $errs)
 		if($passed -eq $false)
 		{
+			Get-Content $scriptFile
 			foreach($msg in $errs)
 			{
 				Write-Host $msg -ForegroundColor Red
@@ -904,7 +912,8 @@ function Assert-statlight-xml-report-results
 		$foundCount = ($filteredTestNodes| Measure-Object).Count
 		echo "*********************************"
 		echo "ERROR result type: $resultTypeToLookFor"
-		$foundCount.ShouldEqual($count)
+		echo "Expected: <$count> Actual: <$foundCount>"
+		$foundCount.ShouldEqual(0)
 		echo "*********************************"
 	}
 	
@@ -1081,7 +1090,6 @@ Task package-release -depends clean-release {
 		'nunit.framework.dll'
 		'StatLight.IntegrationTests.dll'
 		'StatLight.Client.Harness.MSTest.dll'
-		'StatLight.IntegrationTests.Silverlight.MSTest-SL4.dll'
 		'StatLight.IntegrationTests.Silverlight.MSTest-SL5.dll'
 		'StatLight.Core.Phone.dll'
 	)

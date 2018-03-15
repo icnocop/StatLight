@@ -75,10 +75,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Silverlight.Testing">
-      <HintPath>..\..\..\..\lib\Silverlight\Microsoft\MSTest2010May\Microsoft.Silverlight.Testing.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Silverlight\Microsoft\MSTest2011December\Microsoft.Silverlight.Testing.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight">
-      <HintPath>..\..\..\..\lib\Silverlight\Microsoft\MSTest2010May\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+      <HintPath>..\..\..\..\lib\Silverlight\Microsoft\MSTest2011December\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -150,6 +150,9 @@
       <Project>{163315C4-D4D6-4342-B386-F6D80975CF95}</Project>
       <Name>StatLight.Client.Harness</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

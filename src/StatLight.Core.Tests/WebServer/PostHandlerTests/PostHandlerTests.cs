@@ -32,7 +32,7 @@ namespace StatLight.Core.Tests.WebServer.PostHandlerTests
                 ),
                 new ServerTestRunConfiguration(xapHost: () => new byte[0],
                     xapToTest: string.Empty,
-                    xapHostType: XapHostType.MSTest2008December,
+                    xapHostType: XapHostType.MSTest2011December,
                     queryString: string.Empty,
                     forceBrowserStart: true,
                     windowGeometry: new WindowGeometry(),

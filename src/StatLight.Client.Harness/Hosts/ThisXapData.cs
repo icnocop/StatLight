@@ -17,10 +17,20 @@ namespace StatLight.Client.Harness.Hosts
             Server.Debug("ThisXapData - looking for test assemblies");
             Server.Debug("testAssemblyFormalNames.Count() =" + testAssemblyFormalNames.Count());
 
-            _testAssemblies = (from name in testAssemblyFormalNames
-                               where IsNotSpecialAssembly(name.Substring(0, name.IndexOf(',')))
-                               let assembly = Assembly.Load(name)
-                               select assembly).ToArray();
+            _testAssemblies = new List<Assembly>();
+
+            foreach (string name in testAssemblyFormalNames)
+            {
+                if (IsSpecialAssembly(name.Substring(0, name.IndexOf(','))))
+                {
+                    // do not load it
+                    continue;
+                }
+
+                Server.Debug("ThisXapData - Loading assembly - {0}".FormatWith(name));
+                Assembly assembly = Assembly.Load(name);
+                _testAssemblies.Add(assembly);
+            }
 
             foreach (Assembly t in _testAssemblies)
             {
@@ -34,10 +44,10 @@ namespace StatLight.Client.Harness.Hosts
             }
         }
 
-        private static bool IsNotSpecialAssembly(string name)
+        private static bool IsSpecialAssembly(string name)
         {
             if (name.EndsWith(".resources"))
-                return false;
+                return true;
 
             var specialAssemblies = new[]
             {
@@ -52,13 +62,13 @@ namespace StatLight.Client.Harness.Hosts
             foreach (var specialAssembly in specialAssemblies)
             {
                 if (name.Equals(specialAssembly, StringComparison.OrdinalIgnoreCase))
-                    return false;
+                    return true;
             }
 
-            return true;
+            return false;
         }
 
-        private readonly Assembly[] _testAssemblies;
+        private readonly List<Assembly> _testAssemblies;
         private readonly Assembly _entryPointAssembly;
 
         public IEnumerable<Assembly> TestAssemblies

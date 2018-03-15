@@ -83,7 +83,7 @@ namespace StatLight.Core.Tests.Reporting.Providers.MSTestTRX
             }
 
             string fileData = memoryStream.ToArray().ToStringFromByteArray();
-            string expectedFileData = Resources.SampleTRX_GeneratedFromRealTest;
+            string expectedFileData = Resources.SampleTRX_GeneratedFromRealTest.Trim();
                        
             // replace the hard coded credentials with the current domain and user name
             expectedFileData = expectedFileData.Replace(@"DOMAIN\UserName", string.Format(@"{0}\{1}", Environment.UserDomainName, Environment.UserName));

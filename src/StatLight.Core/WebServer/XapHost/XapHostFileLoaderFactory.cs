@@ -82,7 +82,7 @@ namespace StatLight.Core.WebServer.XapHost
                 {
                     case UnitTestProviderType.NUnit:
                     case UnitTestProviderType.XUnitLight:
-                        return XapHostType.MSTest2010May;
+                        return XapHostType.MSTest2011December;
 
                     case UnitTestProviderType.MSTestWithCustomProvider:
                     case UnitTestProviderType.MSTest:

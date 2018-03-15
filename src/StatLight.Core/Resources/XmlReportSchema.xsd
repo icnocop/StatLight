@@ -20,6 +20,23 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+  <xs:element name="metaDataItems">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="metaData" nillable="true" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="classification" type="xs:string" />
+                <xs:attribute name="name" type="xs:string" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
     
     <xs:element name="StatLightTestResults">
         <xs:complexType>
@@ -32,6 +49,7 @@
                                 <xs:sequence minOccurs="0">
                                     <xs:element minOccurs="0" name="exceptionInfo" />
                                     <xs:element minOccurs="0" name="otherInfo" type="xs:string" />
+                                    <xs:element name="metaDataItems" nillable="true" minOccurs="0" maxOccurs="unbounded" />
                                 </xs:sequence>
                                 <xs:attribute name="name" type="xs:string" use="required" />
                                 <xs:attribute name="resulttype" type="xs:string" use="required" />

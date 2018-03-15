@@ -201,5 +201,13 @@ namespace XunitLight
 				//return _m[Methods.ClassCleanup] == null ? null : _m[Methods.ClassCleanup].GetMethodInfo(); 
 			}
 		}
-	}
+
+        public string Namespace
+        {
+            get
+            {
+                return _type.Namespace;
+            }
+        }
+    }
 }

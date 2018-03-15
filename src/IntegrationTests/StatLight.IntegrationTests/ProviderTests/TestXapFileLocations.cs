@@ -11,7 +11,6 @@ namespace StatLight.IntegrationTests.ProviderTests
         }
 
         private static readonly string CurrentDirectory = GetBaseDirectory();
-        public static string MSTestSL4 = CurrentDirectory + "StatLight.IntegrationTests.Silverlight.MSTest-SL4.xap";
         public static string MSTestSL5 = CurrentDirectory + "StatLight.IntegrationTests.Silverlight.MSTest-SL5.xap";
         public static string NUnit = CurrentDirectory + "StatLight.IntegrationTests.Silverlight.NUnit.xap";
         public static string UnitDriven = CurrentDirectory + "StatLight.IntegrationTests.Silverlight.UnitDriven.xap";
